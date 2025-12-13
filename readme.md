@@ -59,3 +59,36 @@ Once installation has finished, execute this command to verify if k3s is running
 ```
 kubectl get node
 ```
+
+## Install pi-hole
+
+See the `deployment.yaml` in the ´./pihole´ folder in this repo.  This deployment installs pihole on a single-node k3s (runs on 1 raspberry pi)
+
+Since other services might also be running in the k3s cluster that have claimed port 80 already, I have specified a `NodePort` which exposes pihole-web on port `30080`. (See the `deployment.yaml`).
+
+> Before installing the pihole deployment, make sure that the hostname is correctly set in the `nodeAffinity` property of the `persistent volume` definition.  (default value is `raspberrypi`)
+
+Install it by executing the following command:
+
+```
+kubectl apply -f deployment.yaml -n pihole
+```
+
+Change the password of the pihole webadmin tool by logging in into the container and set the password:
+
+```
+kubectl get pods -n pihole
+kubectl exec -n pihole -it <podname> -- bash
+```
+
+Now, you have a prompt in the container.  Execute this command:
+
+```
+pihole setpassword
+```
+
+Navigate to
+
+```
+http://<raspberry-ip>:30080/admin
+```
