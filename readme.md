@@ -100,6 +100,13 @@ Install it by executing the following command:
 kubectl apply -f deployment.yaml -n pihole
 ```
 
+Verify if pihole is used for name-resolving:
+```
+nslookup google.com
+```
+The IP of pihole should be displayed as the DNS server.
+
+
 Change the password of the pihole webadmin tool by logging in into the container and set the password:
 
 ```
@@ -113,7 +120,7 @@ Now, you have a prompt in the container.  Execute this command:
 pihole setpassword
 ```
 
-Navigate to
+Navigate to to see the dashboard.
 
 ```
 http://<raspberry-ip>:30080/admin
