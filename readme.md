@@ -35,6 +35,11 @@ static routers=<your-router-ip>
 static domain_name_servers=<your-router-ip> 8.8.8.8
 ```
 
+or do this via the command-line text tool (recommended):
+```
+sudo nmtui
+```
+
 After you've done that, do not forget to add the IP you've choosen to the DHCP address reservation list in your router. 
 
 The changes only have effect after rebooting the Raspberry Pi.
@@ -48,11 +53,19 @@ Quickstart guide for installing k3s can be found [here](https://docs.k3s.io/quic
 
 ## Install k3s
 
-Execute this command:
+Execute the command below; this will execute the k3s installation script that is available. 
 
 ```
 curl -sfL https://get.k3s.io | sh -s - --write-kubeconfig-mode 644
 ```
+
+Customizations via commandline arguments are possible (see documentation).
+Note that it is not recommended to use `docker` as the container runtime in k3s, as this can give issues, especially on ARM64 installations.
+
+When a warning is given during installation whic says something like this:
+>  Failed to find memory cgroup, you may need to add "cgroup_memory=1 cgroup_enable=memory" to your linux cmdline (/boot/cmdline.txt on a Raspberry Pi)
+
+The installation will probably fail.  These 2 flags must be added to the `cmdline.txt` file.  Afterwards, reboot the raspberry pi.
 
 Once installation has finished, execute this command to verify if k3s is running
 
@@ -60,9 +73,22 @@ Once installation has finished, execute this command to verify if k3s is running
 kubectl get node
 ```
 
+When k3s is not running, verify the logs:
+```
+journalctl -u k3s.service
+```
+
 ## Install pi-hole
 
 See the `deployment.yaml` in the ´./pihole´ folder in this repo.  This deployment installs pihole on a single-node k3s (runs on 1 raspberry pi)
+
+The deployment has a volume-mount to `/srv/pihole`.  This folder must exist before executing the deployment.
+Create the folder and assign the correct owner:
+
+```
+sudo mkdir /srv/pihole
+chown -R 1000:1000 /srv/pihole
+```
 
 Since other services might also be running in the k3s cluster that have claimed port 80 already, I have specified a `NodePort` which exposes pihole-web on port `30080`. (See the `deployment.yaml`).
 
