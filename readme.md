@@ -31,10 +31,25 @@ I've decided to give the Raspberry Pi a static IP.  That will make it easier to 
 To do this, add these lines to the `/etc/dhcpcd.conf` file:
 
 ```
+hostname raspberrypi
+
 interface eth0
 static ip_address=<ip>/24
 static routers=<your-router-ip>
 static domain_name_servers=<your-router-ip> 8.8.8.8
+```
+
+Enable dhcpcd after this has been done:
+
+```
+sudo systemctl enable --now dhcpcd
+```
+
+If dhcpcd is not installed, install it:
+
+```
+sudo apt update
+sudo apt install dhcpcd5
 ```
 
 After you've done that, do not forget to add the IP you've choosen to the DHCP address reservation list in your router. 
