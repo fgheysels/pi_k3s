@@ -22,7 +22,9 @@ cat /etc/os-release
 
 ## Additional configuration
 
-### Assign a static IP
+### Assign a static IP 
+
+> Note: in hindsight, it is better to not do that and work with DHCP lease reservations to get a fixed IP.
 
 I've decided to give the Raspberry Pi a static IP.  That will make it easier to ssh to it.
 
@@ -33,11 +35,6 @@ interface eth0
 static ip_address=<ip>/24
 static routers=<your-router-ip>
 static domain_name_servers=<your-router-ip> 8.8.8.8
-```
-
-or do this via the command-line text tool (recommended):
-```
-sudo nmtui
 ```
 
 After you've done that, do not forget to add the IP you've choosen to the DHCP address reservation list in your router. 
