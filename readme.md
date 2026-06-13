@@ -135,5 +135,5 @@ pihole setpassword
 Navigate to to see the dashboard.
 
 ```
-http://<raspberry-ip>:30080/admin
+http://<raspberry-ip>:8080/admin
 ```
