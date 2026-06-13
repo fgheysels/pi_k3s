@@ -67,6 +67,8 @@ spec:
               value: "pihole" # Set a strong password
             - name: DNSMASQ_LISTENING
               value: "all"
+            - name: FTLCONF_webserver_port
+              value: "8080"
           volumeMounts:
             - name: pihole-data
               mountPath: /etc/pihole
@@ -87,5 +89,5 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80
+      targetPort: 8080
       nodePort: 30080  # NodePort range: 30000-32767
