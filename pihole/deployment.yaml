@@ -69,6 +69,8 @@ spec:
               value: "all"
             - name: FTLCONF_webserver_port
               value: "8080"
+            - name: FTLCONF_misc_privacylevel
+              value: "0"  # default value is 0 which means 'log everything'
           volumeMounts:
             - name: pihole-data
               mountPath: /etc/pihole
